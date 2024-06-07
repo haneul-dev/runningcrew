@@ -24,11 +24,11 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   bool isToday = true; // 초기 상태는 "오늘"
   double todayDistance = 3.14;
-  String todayPace = '6\'24';
+  String todayPace = '6\'24\"';
   String todayTime = '12:34';
   int todayCalories = 128;
   double totalDistance = 13.07;
-  String totalPace = '7\'54';
+  String totalPace = '7\'54\"';
   String totalTime = '62:37';
   int totalCalories = 897;
 
