@@ -5,7 +5,7 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  @overrideg
+  @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Club List',
