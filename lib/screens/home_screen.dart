@@ -63,7 +63,7 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
               BottomIconSection(), // BottomIconSection을 Column 안에 배치
-              SizedBox(height: 230), // BottomIconSection 아래에 여백 추가
+              SizedBox(height: 100), // BottomIconSection 아래에 여백 추가
             ],
           ),
           Align(

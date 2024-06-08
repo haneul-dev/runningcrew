@@ -4,7 +4,7 @@ class PaceCheckTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 80), // 필요에 따라 여백을 조정합니다
+      padding: const EdgeInsets.only(top: 40), // 필요에 따라 여백을 조정합니다
       child: Column(
         children: [
           Image.asset(
@@ -12,7 +12,7 @@ class PaceCheckTab extends StatelessWidget {
             height: 240,
             width: 240,
           ),
-          SizedBox(height: 30), // 여백을 줄입니다.
+          SizedBox(height: 0), // 여백을 줄입니다.
           Container(
             padding: EdgeInsets.symmetric(horizontal: 60, vertical: 10),
             decoration: BoxDecoration(
