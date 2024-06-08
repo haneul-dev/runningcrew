@@ -36,6 +36,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.6
   flutter_svg: ^2.0.10
+  kakao_flutter_sdk: ^1.9.2
 
 
 dev_dependencies:
@@ -64,6 +65,16 @@ flutter:
   assets:
     - assets/icon/Ellipse 6.svg
     - assets/icon/Ellipse 6.png
+    - assets/fonts/
+    - assets/icons/
+
+  fonts:
+    - family: Aleo
+      fonts:
+        - asset: assets/fonts/Aleo-VariableFont_wght.ttf
+    - family: Abhaya Libre
+      fonts:
+        - asset: assets/fonts/AbhayaLibre-ExtraBold.ttf
 
   #   - images/a_dot_ham.jpeg
 
