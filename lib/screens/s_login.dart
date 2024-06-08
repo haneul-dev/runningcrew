@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart'; // PlatformException을 사용하기 위해 추가
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
+import 'package:running_crew/main.dart';
+import 'home_screen.dart'; // 홈 화면 파일을 import
 
 class LoginScreen extends StatelessWidget {
   @override
@@ -37,7 +39,7 @@ class LoginScreen extends StatelessWidget {
             child: Center(
               child: GestureDetector(
                 onTap: () async {
-                  signInWithKaKao();
+                  signInWithKaKao(context); // context를 전달
                 },
                 child: Image.asset(
                   'assets/icons/kakao_login.png',
@@ -71,12 +73,21 @@ class LoginScreen extends StatelessWidget {
       ),
     );
   }
+  void navigatorToMainPage(BuildContext context){
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (context) => HomeScreen(),
+        ));
+  }
 
-  Future<void> signInWithKaKao() async {
+  Future<void> signInWithKaKao(BuildContext context) async {
     if (await isKakaoTalkInstalled()) {
       try {
-        await UserApi.instance.loginWithKakaoTalk();
+        await UserApi.instance.loginWithKakaoTalk().then((value) {
+          print('value from kakao $value');
+          navigatorToMainPage(context);
+        });
         print('카카오톡으로 로그인 성공');
+
       } catch (error) {
         print('카카오톡으로 로그인 실패 $error');
 
@@ -87,16 +98,22 @@ class LoginScreen extends StatelessWidget {
         }
         // 카카오톡에 연결된 카카오계정이 없는 경우, 카카오계정으로 로그인
         try {
-          await UserApi.instance.loginWithKakaoAccount();
-          print('카카오계정으로 로그인 성공');
+          await UserApi.instance.loginWithKakaoAccount().then((value) {
+            print('value from kakao $value');
+            navigatorToMainPage(context);
+          });
+          print('카카오톡으로 로그인 성공');
         } catch (error) {
           print('카카오계정으로 로그인 실패 $error');
         }
       }
     } else {
       try {
-        await UserApi.instance.loginWithKakaoAccount();
-        print('카카오계정으로 로그인 성공');
+        await UserApi.instance.loginWithKakaoAccount().then((value) {
+          print('value from kakao $value');
+          navigatorToMainPage(context);
+        });
+        print('카카오톡으로 로그인 성공');
       } catch (error) {
         print('카카오계정으로 로그인 실패 $error');
       }

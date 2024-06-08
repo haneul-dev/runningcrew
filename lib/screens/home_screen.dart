@@ -74,7 +74,7 @@ class HomeScreen extends StatelessWidget {
                 'Running Crew',
                 style: TextStyle(
                   fontSize: 15,
-                  fontFamily: 'AbhayaLibreExtraBold',
+                  fontFamily: 'Abhaya Libre',
                 ),
               ),
             ),

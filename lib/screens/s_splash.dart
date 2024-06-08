@@ -3,10 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 's_login.dart'; // 로그인 화면 파일을 import
 
-void main() {
-  // 웹 환경에서 카카오 로그인을 정상적으로 완료하려면 runApp() 호출 전 아래 메서드 호출 필요
+void main() async{
   WidgetsFlutterBinding.ensureInitialized();
-  KakaoSdk.init(nativeAppKey: 'db88e76129a9cf987cef8a6a93cd8fe0bb');
+  KakaoSdk.init(nativeAppKey: '88e76129a9cf987cef8a6a93cd8fe0bb');
+
+  // 키 해시를 가져와 출력합니다.
+  String keyHash = await KakaoSdk.origin;
+  print('키 해시: $keyHash');
   runApp(MyApp());
 }
 

@@ -1,22 +1,5 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Club List',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: ClubListPage(),
-    );
-  }
-}
-
 class ClubListPage extends StatelessWidget {
   void _showConfirmationDialog(BuildContext context, int index) {
     showDialog(
@@ -202,7 +185,6 @@ class ClubPage extends StatelessWidget {
           ClubMemberCard(index: 5),
           ClubMemberCard(index: 6),
           ClubMemberCard(index: 7),
-
         ],
       ),
     );
