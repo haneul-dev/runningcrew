@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'on_start.dart'; // 추가된 새로운 페이지 파일 경로
 import 'tabs/time_running_tab.dart';
 import 'tabs/distance_goal_tab.dart';
 import 'tabs/pace_check_tab.dart';
@@ -63,12 +62,7 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              BottomIconSection(onStartPressed: () { // onStartPressed를 새로 추가하여 연결
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => OnStartPage()),
-                );
-              }),
+              BottomIconSection(), // BottomIconSection을 Column 안에 배치
               SizedBox(height: 230), // BottomIconSection 아래에 여백 추가
             ],
           ),
@@ -86,6 +80,42 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class TabBarSection extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: DefaultTabController(
+        length: 3,
+        child: Column(
+          children: [
+            Container(
+              color: Colors.white,
+              child: TabBar(
+                labelColor: Colors.black,
+                indicatorColor: Colors.black,
+                tabs: [
+                  Tab(text: '타임 러닝'),
+                  Tab(text: '목표 거리'),
+                  Tab(text: '페이스 체크'),
+                ],
+              ),
+            ),
+            Expanded(
+              child: TabBarView(
+                children: [
+                  TimeRunningTab(), // 타임 러닝 탭
+                  DistanceGoalTab(), // 목표 거리 탭
+                  PaceCheckTab(), // 페이스 체크 탭
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
