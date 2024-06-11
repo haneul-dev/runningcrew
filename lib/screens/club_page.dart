@@ -1,21 +1,5 @@
 import 'package:flutter/material.dart';
-
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Club List',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: ClubListPage(),
-    );
-  }
-}
+import 'home_screen.dart'; // HomeScreen import 추가
 
 class ClubListPage extends StatelessWidget {
   void _showConfirmationDialog(BuildContext context, int index) {
@@ -169,6 +153,16 @@ class ClubPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => HomeScreen()),
+                  (Route<dynamic> route) => false,
+            );
+          },
+        ),
         title: Row(
           children: [
             CircleAvatar(
@@ -202,7 +196,6 @@ class ClubPage extends StatelessWidget {
           ClubMemberCard(index: 5),
           ClubMemberCard(index: 6),
           ClubMemberCard(index: 7),
-
         ],
       ),
     );

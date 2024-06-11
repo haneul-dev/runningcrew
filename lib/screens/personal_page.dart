@@ -1,20 +1,7 @@
 import 'package:flutter/material.dart';
-
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Profile Page',
-      theme: ThemeData(
-      ),
-      home: ProfilePage(),
-    );
-  }
-}
+import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'home_screen.dart'; // HomeScreen import 추가
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -23,14 +10,58 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   bool isToday = true; // 초기 상태는 "오늘"
-  double todayDistance = 3.14;
-  String todayPace = '6\'24\"';
-  String todayTime = '12:34';
-  int todayCalories = 128;
-  double totalDistance = 13.07;
-  String totalPace = '7\'54\"';
-  String totalTime = '62:37';
-  int totalCalories = 897;
+  String userName = 'User_Name'; // 사용자 이름 기본값
+  double todayDistance = 0.0;
+  String todayPace = '0\'00\"';
+  String todayTime = '00:00';
+  int todayCalories = 0;
+  double totalDistance = 0.0;
+  String totalPace = '0\'00\"';
+  String totalTime = '00:00';
+  int totalCalories = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _initializeData();
+  }
+
+  Future<void> _initializeData() async {
+    await _loadUserData();
+    _loadRecentData();
+    _loadTotalData();
+  }
+
+  Future<void> _loadUserData() async {
+    try {
+      User user = await UserApi.instance.me();
+      setState(() {
+        userName = user.kakaoAccount?.profile?.nickname ?? 'User_Name';
+      });
+    } catch (error) {
+      print('Failed to get user data: $error');
+    }
+  }
+
+  Future<void> _loadRecentData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      todayDistance = prefs.getDouble('recent_distance') ?? 0.0;
+      todayPace = prefs.getString('recent_pace') ?? '0\'00\"';
+      todayTime = prefs.getString('recent_time') ?? '00:00';
+      todayCalories = prefs.getInt('recent_calories') ?? 0;
+    });
+  }
+
+  Future<void> _loadTotalData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      totalDistance = prefs.getDouble('total_distance') ?? 0.0;
+      totalPace = prefs.getString('total_pace') ?? '0\'00\"';
+      totalTime = prefs.getString('total_time') ?? '00:00';
+      totalCalories = prefs.getInt('total_calories') ?? 0;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,13 +91,13 @@ class _ProfilePageState extends State<ProfilePage> {
               child: Column(
                 children: [
                   Image.asset(
-                    'assets/icon/Ellipse 6.png',
+                    'assets/icons/Ellipse 6.png',
                     width: 100,
                     height: 100,
                   ),
                   SizedBox(height: 16),
                   Text(
-                    'User_Name',
+                    userName,
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
@@ -83,21 +114,25 @@ class _ProfilePageState extends State<ProfilePage> {
                 crossAxisSpacing: 16.0,
                 children: [
                   InfoCard(
-                      title: '거리',
-                      content: isToday ? todayDistance.toString() : totalDistance.toString(),
-                      backgroundColor: Color(0xFFF6F5F2)),
+                    title: '거리',
+                    content: isToday ? todayDistance.toStringAsFixed(2) : totalDistance.toStringAsFixed(2),
+                    backgroundColor: Color(0xFFF6F5F2),
+                  ),
                   InfoCard(
-                      title: '페이스',
-                      content: isToday ? todayPace : totalPace,
-                      backgroundColor: Color(0xFFF0EBE3)),
+                    title: '페이스',
+                    content: isToday ? todayPace : totalPace,
+                    backgroundColor: Color(0xFFF0EBE3),
+                  ),
                   InfoCard(
-                      title: '시간',
-                      content: isToday ? todayTime : totalTime,
-                      backgroundColor: Color(0xFFF3D0D7)),
+                    title: '시간',
+                    content: isToday ? todayTime : totalTime,
+                    backgroundColor: Color(0xFFF3D0D7),
+                  ),
                   InfoCard(
-                      title: '칼로리',
-                      content: isToday ? todayCalories.toString() : totalCalories.toString(),
-                      backgroundColor: Color(0xFFFFEFEF)),
+                    title: '칼로리',
+                    content: isToday ? todayCalories.toString() : totalCalories.toString(),
+                    backgroundColor: Color(0xFFFFEFEF),
+                  ),
                 ],
               ),
             ),
@@ -118,7 +153,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
                 child: Center(
                   child: Text(
-                    isToday ? '오늘' : '누적', // 상태에 따라 텍스트 변경
+                    isToday ? '최근' : '누적', // 상태에 따라 텍스트 변경
                     style: TextStyle(
                       color: Colors.black, // 텍스트 색상
                       fontWeight: FontWeight.bold,

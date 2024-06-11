@@ -1,10 +1,46 @@
-// on_start.dart
 import 'package:flutter/material.dart';
+import 'dart:async';
 import 'on_end.dart'; // OnEndPage의 경로를 추가
 
-class OnStartPage extends StatelessWidget {
+class RunScreen extends StatefulWidget {
+  @override
+  _RunScreenState createState() => _RunScreenState();
+}
+
+class _RunScreenState extends State<RunScreen> {
+  late Timer _timer;
+  int _seconds = 0;
+  double _distance = 0.0;
+  final double pacePerMinute = 6.0; // 1분당 6분/km를 가정
+
+  @override
+  void initState() {
+    super.initState();
+    _startTimer();
+  }
+
+  void _startTimer() {
+    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      setState(() {
+        _seconds++;
+        // 매 초마다 pacePerMinute(분당 km)를 기준으로 거리를 증가시킵니다.
+        _distance += (1 / pacePerMinute) / 60; // 매 초당 거리 증가
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
+    final int minutes = _seconds ~/ 60;
+    final int remainingSeconds = _seconds % 60;
+    final double pace = _seconds > 0 ? (_seconds / 60) / _distance : 0.0;
+
     return Scaffold(
       backgroundColor: Colors.white, // 배경색을 흰색으로 변경
       appBar: AppBar(
@@ -20,7 +56,7 @@ class OnStartPage extends StatelessWidget {
                 Column(
                   children: [
                     Text(
-                      "0'00\"",
+                      "${pace.toStringAsFixed(2)}'",
                       style: TextStyle(fontSize: 18, color: Colors.black), // 페이스 텍스트 색상 변경
                     ),
                     Text(
@@ -33,7 +69,7 @@ class OnStartPage extends StatelessWidget {
                 Column(
                   children: [
                     Text(
-                      "0:00",
+                      "${minutes.toString().padLeft(2, '0')}:${remainingSeconds.toString().padLeft(2, '0')}",
                       style: TextStyle(fontSize: 18, color: Colors.black), // 시간 텍스트 색상 변경
                     ),
                     Text(
@@ -46,7 +82,7 @@ class OnStartPage extends StatelessWidget {
             ),
             SizedBox(height: 50), // 간격
             Text(
-              "0.00",
+              _distance.toStringAsFixed(2),
               style: TextStyle(
                 fontSize: 40, // 거리 표시 텍스트 크기 변경
                 fontWeight: FontWeight.bold,
@@ -61,10 +97,17 @@ class OnStartPage extends StatelessWidget {
             SizedBox(height: 50), // 간격
             GestureDetector(
               onTap: () {
+                _timer.cancel();
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => OnEndPage()), // OnEndPage로 이동
-                );
+                  MaterialPageRoute(
+                    builder: (context) => OnEndPage(
+                      pace: pace.toStringAsFixed(2),
+                      distance: _distance.toStringAsFixed(2),
+                      time: "${minutes.toString().padLeft(2, '0')}:${remainingSeconds.toString().padLeft(2, '0')}",
+                    ),
+                  ),
+                ); // OnEndPage로 이동
               },
               child: Container(
                 height: 70, // 크기 조정

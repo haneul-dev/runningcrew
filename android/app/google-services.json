@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "24716300560",
+    "project_id": "danrunning-46770",
+    "storage_bucket": "danrunning-46770.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:24716300560:android:625134e94046c45356d595",
+        "android_client_info": {
+          "package_name": "com.example.running_crew"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDUGOnqw7FeEOWWiBjtzSCiPusk_4IFrNI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
